@@ -91,5 +91,9 @@ func SignIn(c echo.Context) error {
 	c.SetCookie(cookie)
 	params["token"] = accessToken
 
-	return c.JSON(http.StatusOK, params["token"])
+	r := &Res{
+		Status:   http.StatusOK,
+		Response: params["token"],
+	}
+	return c.JSON(http.StatusOK, r)
 }
