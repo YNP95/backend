@@ -74,13 +74,6 @@ func SignIn(c echo.Context) error {
 		return c.JSON(http.StatusMethodNotAllowed, err)
 	}
 
-	// if password != dbPassword {
-	// 	params["pwd"] = "no match"
-	// 	_ = c.Bind(&params)
-
-	// 	return c.JSON(http.StatusMethodNotAllowed, params["pwd"])
-	// }
-
 	accessToken, err := generateToken(c, id, name)
 	if err != nil {
 		params["token"] = fmt.Sprint(err)
