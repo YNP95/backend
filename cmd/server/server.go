@@ -38,8 +38,9 @@ func main() {
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
-	s := NewStats()
-	e.Use(s.Middleware)
+	// s := NewStats()
+	// e.Use(s.Middleware)
+	e.Use(middleware.CORS())
 
 	e.GET("/", api.Index)
 	e.GET("/random", api.Random)
