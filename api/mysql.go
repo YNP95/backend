@@ -45,12 +45,12 @@ func CloseDb(db *sql.DB) {
 	db.Close()
 }
 
-func queryPw(db *sql.DB, name string) (int, string) {
+func queryPw(db *sql.DB, name, password string) (int, error) {
 	var pw string
 	var id int
-	err := db.QueryRow("SELECT USER_ID, PW FROM USERS where name = ?", name).Scan(&id, &pw)
+	err := db.QueryRow("SELECT USER_ID FROM USERS WHERE NAME = ? AND cast(PW as CHAR) = ?;", name, password).Scan(&id, &pw)
 	if err != nil {
 		log.Println(err)
 	}
-	return id, pw
+	return id, err
 }

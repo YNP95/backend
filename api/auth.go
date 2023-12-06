@@ -69,14 +69,17 @@ func SignIn(c echo.Context) error {
 		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw")
 	}
 
-	id, dbPassword := queryPw(db, name)
-
-	if password != dbPassword {
-		params["pwd"] = "no match"
-		_ = c.Bind(&params)
-
-		return c.JSON(http.StatusMethodNotAllowed, params["pwd"])
+	id, err := queryPw(db, name, password)
+	if err != nil {
+		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw")
 	}
+
+	// if password != dbPassword {
+	// 	params["pwd"] = "no match"
+	// 	_ = c.Bind(&params)
+
+	// 	return c.JSON(http.StatusMethodNotAllowed, params["pwd"])
+	// }
 
 	accessToken, err := generateToken(c, id, name)
 	if err != nil {
