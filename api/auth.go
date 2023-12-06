@@ -71,7 +71,7 @@ func SignIn(c echo.Context) error {
 
 	id, err := queryPw(db, name, password)
 	if err != nil {
-		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw")
+		return c.JSON(http.StatusMethodNotAllowed, err)
 	}
 
 	// if password != dbPassword {

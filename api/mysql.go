@@ -46,9 +46,8 @@ func CloseDb(db *sql.DB) {
 }
 
 func queryPw(db *sql.DB, name, password string) (int, error) {
-	var pw string
 	var id int
-	err := db.QueryRow("SELECT USER_ID FROM USERS WHERE NAME = ? AND cast(PW as CHAR) = ?;", name, password).Scan(&id, &pw)
+	err := db.QueryRow("SELECT USER_ID FROM USERS WHERE NAME = ? AND cast(PW as CHAR) = ?;", name, password).Scan(&id)
 	if err != nil {
 		log.Println(err)
 	}
