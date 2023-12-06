@@ -43,10 +43,13 @@ func NewUserInfo(c echo.Context) error {
 		Name: c.FormValue("name"),
 		PW:   c.FormValue("password"),
 	}
+	if ui.Name == "" || ui.PW == "" {
+		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw")
+	}
 
 	db := NewDb()
 	defer CloseDb(db)
-	_, err := db.Exec("INSERT INTO user_table(name, password) VALUES(?, ?)", ui.Name, ui.PW)
+	_, err := db.Exec("INSERT INTO USERS(NAME, PW) VALUES(?, ?)", ui.Name, ui.PW)
 	if err != nil {
 		log.Println(err)
 	}
@@ -61,6 +64,11 @@ func SignIn(c echo.Context) error {
 
 	name := c.FormValue("name")
 	password := c.FormValue("password")
+
+	if name == "" || password == "" {
+		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw")
+	}
+
 	id, dbPassword := queryPw(db, name)
 
 	if password != dbPassword {
