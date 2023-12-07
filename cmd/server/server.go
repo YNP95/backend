@@ -42,16 +42,16 @@ func main() {
 	// e.Use(s.Middleware)
 	e.Use(middleware.CORS())
 
-	e.GET("/", api.Index)
-	e.GET("/random", api.Random)
+	e.GET("/v1/", api.Index)
+	e.GET("/v1/random", api.Random)
 
-	e.GET("/users/get/:name", api.GetUserInfo)
-	e.POST("/users/signup", api.NewUserInfo)
-	e.POST("/users/signin", api.SignIn)
+	e.GET("/v1/users/get/:name", api.GetUserInfo)
+	e.POST("/v1/users/signup", api.NewUserInfo)
+	e.POST("/v1/users/signin", api.SignIn)
 
-	e.POST("/table/create", api.CreateTable)
+	e.POST("/v1/table/create", api.CreateTable)
 
-	e.GET("/get/lotto/:round", api.GetLottoNum)
+	e.GET("/v1/get/lotto/:round", api.GetLottoNum)
 
 	// e.Use(middleware.JWTWithConfig(middleware.JWTConfig{
 	// 	SigningKey:  []byte("secret"),
