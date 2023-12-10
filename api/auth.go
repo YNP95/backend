@@ -52,6 +52,15 @@ func NewUserInfo(c echo.Context) error {
 	return c.String(http.StatusOK, "SignUp Success.")
 }
 
+func IdDuplicateCheck(c echo.Context) error {
+	name := c.FormValue("name")
+	id, err := queryId(env.MyDB, name)
+	if err != nil {
+		return c.JSON(http.StatusOK, "not exist")
+	}
+	return c.JSON(http.StatusUnauthorized, id)
+}
+
 func SignIn(c echo.Context) error {
 	params := make(map[string]string)
 	var id int

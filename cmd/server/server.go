@@ -53,6 +53,7 @@ func main() {
 	e.GET("/v1/random", api.Random)
 
 	e.GET("/v1/users/get/:name", api.GetUserInfo)
+	e.GET("/v1/users/exist/:name", api.IdDuplicateCheck)
 	e.POST("/v1/users/signup", api.NewUserInfo)
 	e.POST("/v1/users/signin", api.SignIn)
 
