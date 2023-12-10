@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 	"ynp/env"
@@ -110,4 +111,48 @@ func CrawlingLottoNum(c echo.Context) error {
 		return c.String(http.StatusMethodNotAllowed, "json marshal fail")
 	}
 	return c.JSONBlob(http.StatusOK, numsJson)
+}
+
+func CrawlingLottoNumAll(c echo.Context) error {
+	go func() {
+		lottoUrl := "https://dhlottery.co.kr/gameResult.do?method=byWin"
+
+		for round := 1; round < 1097; round++ {
+
+			res, err := http.Get(lottoUrl)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			defer res.Body.Close()
+
+			if res.StatusCode != http.StatusOK {
+				log.Println("http.Status not OK")
+				continue
+			}
+
+			doc, err := goquery.NewDocumentFromReader(res.Body)
+			if err != nil {
+				log.Fatal(err)
+			}
+			win := doc.Find("div.num.win").Contents().FilterFunction(func(i int, s *goquery.Selection) bool {
+				return !s.Is("strong")
+			}).Text()
+			bonus := doc.Find("div.num.bonus").Contents().FilterFunction(func(i int, s *goquery.Selection) bool {
+				return !s.Is("strong")
+			}).Text()
+
+			winlist := strings.Split(strings.TrimSpace(win), "\n")
+
+			var nums []string
+			for i := 0; i < 6; i++ {
+				nums = append(nums, strings.TrimSpace(winlist[i]))
+			}
+			nums = append(nums, strings.TrimSpace(bonus))
+
+			insertNums(env.MyDB, strconv.Itoa(round), strings.Join(nums, " "))
+		}
+
+	}()
+	return c.JSON(http.StatusOK, "OK")
 }

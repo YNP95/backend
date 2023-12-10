@@ -59,6 +59,7 @@ func main() {
 	e.POST("/v1/table/create", api.CreateTable)
 
 	e.GET("/v1/crawl/lotto/:round", api.CrawlingLottoNum)
+	e.GET("/v1/crawl/lotto/all", api.CrawlingLottoNumAll)
 
 	// e.Use(middleware.JWTWithConfig(middleware.JWTConfig{
 	// 	SigningKey:  []byte("secret"),

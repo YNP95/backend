@@ -66,7 +66,7 @@ func SignIn(c echo.Context) error {
 	password := c.FormValue("password")
 
 	if name == "" || password == "" {
-		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw")
+		return c.JSON(http.StatusUnauthorized, "invalid name pw")
 	}
 
 	id, err := queryPw(db, name, password)
