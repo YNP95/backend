@@ -12,6 +12,8 @@ import (
 )
 
 func main() {
+	env.MyDB = api.NewDb()
+	defer env.MyDB.Close()
 	crawlingLottoNum()
 }
 
