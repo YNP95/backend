@@ -57,7 +57,7 @@ func queryId(db *sql.DB, name string) (int, error) {
 	return id, err
 }
 
-func insertNums(db *sql.DB, round, nums string) error {
+func InsertNums(db *sql.DB, round, nums string) error {
 	_, err := db.Exec("INSERT INTO lotto(round, nums) VALUES(?, ?);", round, nums)
 	return err
 }

@@ -104,7 +104,7 @@ func CrawlingLottoNum(c echo.Context) error {
 	}
 	nums = append(nums, strings.TrimSpace(bonus))
 
-	insertNums(env.MyDB, round, strings.Join(nums, " "))
+	InsertNums(env.MyDB, round, strings.Join(nums, " "))
 
 	numsJson, err := json.Marshal(nums)
 	if err != nil {
@@ -152,7 +152,7 @@ func CrawlingLottoNumAll(c echo.Context) error {
 			}
 			nums = append(nums, strings.TrimSpace(bonus))
 
-			insertNums(env.MyDB, strconv.Itoa(round), strings.Join(nums, " "))
+			InsertNums(env.MyDB, strconv.Itoa(round), strings.Join(nums, " "))
 
 			time.Sleep(time.Millisecond * 500)
 		}
