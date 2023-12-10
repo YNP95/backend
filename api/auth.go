@@ -53,7 +53,7 @@ func NewUserInfo(c echo.Context) error {
 }
 
 func IdDuplicateCheck(c echo.Context) error {
-	name := c.FormValue("name")
+	name := c.Param("name")
 	id, err := queryId(env.MyDB, name)
 	if err != nil {
 		return c.JSON(http.StatusOK, "not exist")
