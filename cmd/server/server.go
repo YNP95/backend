@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"ynp/api"
+	"ynp/env"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -31,7 +32,13 @@ func (s *Stats) Middleware(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+func init() {
+	env.MyDB = api.NewDb()
+}
+
 func main() {
+	defer api.CloseDb(env.MyDB)
+
 	e := echo.New()
 
 	e.Use(middleware.Recover())
@@ -51,7 +58,7 @@ func main() {
 
 	e.POST("/v1/table/create", api.CreateTable)
 
-	e.GET("/v1/get/lotto/:round", api.GetLottoNum)
+	e.GET("/v1/crawl/lotto/:round", api.CrawlingLottoNum)
 
 	// e.Use(middleware.JWTWithConfig(middleware.JWTConfig{
 	// 	SigningKey:  []byte("secret"),

@@ -49,8 +49,10 @@ func queryPw(db *sql.DB, name, password string) (int, error) {
 	var id int
 
 	err := db.QueryRow("SELECT USER_ID FROM USERS WHERE NAME = ? AND PW = ?;", name, password).Scan(&id)
-	if err != nil {
-		log.Println(err)
-	}
 	return id, err
+}
+
+func insertNums(db *sql.DB, round, nums string) error {
+	_, err := db.Exec("INSERT INTO lotto(round, nums) VALUES(?, ?);", round, nums)
+	return err
 }

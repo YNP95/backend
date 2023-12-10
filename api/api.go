@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"ynp/env"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/labstack/echo/v4"
@@ -63,7 +64,7 @@ func CreateTable(c echo.Context) error {
 	return c.String(http.StatusOK, "table created")
 }
 
-func GetLottoNum(c echo.Context) error {
+func CrawlingLottoNum(c echo.Context) error {
 	lottoUrl := "https://dhlottery.co.kr/gameResult.do?method=byWin"
 
 	round := c.Param("round")
@@ -101,6 +102,8 @@ func GetLottoNum(c echo.Context) error {
 		nums = append(nums, strings.TrimSpace(winlist[i]))
 	}
 	nums = append(nums, strings.TrimSpace(bonus))
+
+	insertNums(env.MyDB, round, strings.Join(nums, " "))
 
 	numsJson, err := json.Marshal(nums)
 	if err != nil {
