@@ -115,9 +115,11 @@ func CrawlingLottoNum(c echo.Context) error {
 
 func CrawlingLottoNumAll(c echo.Context) error {
 	go func() {
-		lottoUrl := "https://dhlottery.co.kr/gameResult.do?method=byWin"
+		lu := "https://dhlottery.co.kr/gameResult.do?method=byWin"
 
-		for round := 1; round < 1097; round++ {
+		for round := 1; round < 1098; round++ {
+
+			lottoUrl := lu + "&drwNo=" + strconv.Itoa(round)
 
 			res, err := http.Get(lottoUrl)
 			if err != nil {
@@ -151,6 +153,8 @@ func CrawlingLottoNumAll(c echo.Context) error {
 			nums = append(nums, strings.TrimSpace(bonus))
 
 			insertNums(env.MyDB, strconv.Itoa(round), strings.Join(nums, " "))
+
+			time.Sleep(time.Millisecond * 500)
 		}
 
 	}()

@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"ynp/env"
 
 	"github.com/labstack/echo/v4"
 )
@@ -13,10 +14,7 @@ import (
 func GetUserInfo(c echo.Context) error {
 	name := c.Param("name")
 
-	db := NewDb()
-	defer CloseDb(db)
-
-	rows, err := db.Query("SELECT id, name, password, created, updated  FROM user_table where name = ?", name)
+	rows, err := env.MyDB.Query("SELECT id, name, password, created, updated  FROM user_table where name = ?", name)
 	if err != nil {
 		return err
 	}
@@ -47,9 +45,7 @@ func NewUserInfo(c echo.Context) error {
 		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw")
 	}
 
-	db := NewDb()
-	defer CloseDb(db)
-	_, err := db.Exec("INSERT INTO USERS(NAME, PW) VALUES(?, ?)", ui.Name, ui.PW)
+	_, err := env.MyDB.Exec("INSERT INTO USERS(NAME, PW) VALUES(?, ?)", ui.Name, ui.PW)
 	if err != nil {
 		log.Println(err)
 	}
@@ -57,8 +53,6 @@ func NewUserInfo(c echo.Context) error {
 }
 
 func SignIn(c echo.Context) error {
-	db := NewDb()
-	defer CloseDb(db)
 	params := make(map[string]string)
 	var id int
 
@@ -69,7 +63,7 @@ func SignIn(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, "invalid name pw")
 	}
 
-	id, err := queryPw(db, name, password)
+	id, err := queryPw(env.MyDB, name, password)
 	if err != nil {
 		return c.JSON(http.StatusMethodNotAllowed, err)
 	}
