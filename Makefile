@@ -15,6 +15,7 @@ clean:
 
 build:	dummy
 	go build api/*.go
-	go build cmd/*/*.go
+	go build cmd/server/*.go
+	go build cmd/batch/*.go
 
 dummy:
