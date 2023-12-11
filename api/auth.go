@@ -14,7 +14,7 @@ import (
 func GetUserInfo(c echo.Context) error {
 	name := c.Param("name")
 
-	rows, err := env.MyDB.Query("SELECT id, name, password, created, updated  FROM user_table where name = ?", name)
+	rows, err := env.MyDB.Query("SELECT USER_ID, PW, NAME, EMAIL, TEL, LAST_ACCESS_DT, UPDATE_DT, CREATE_DT FROM USERS where name = ?", name)
 	if err != nil {
 		return err
 	}
@@ -41,10 +41,10 @@ func NewUserInfo(c echo.Context) error {
 		Name:  c.FormValue("name"),
 		PW:    c.FormValue("password"),
 		Email: c.FormValue("email"),
-		Tel:   c.FormValue("Tel"),
+		Tel:   c.FormValue("tel"),
 	}
 	if ui.Name == "" || ui.PW == "" || ui.Email == "" || ui.Tel == "" {
-		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw")
+		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw email tel")
 	}
 
 	_, err := env.MyDB.Exec("INSERT INTO ghldnjs.USERS(NAME, PW, EMAIL, TEL) VALUES(?, ?, ?, ?);", ui.Name, ui.PW, ui.Email, ui.Tel)
