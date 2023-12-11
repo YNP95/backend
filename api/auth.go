@@ -58,9 +58,10 @@ func IdDuplicateCheck(c echo.Context) error {
 	name := c.Param("name")
 	id, err := queryId(env.MyDB, name)
 	if err != nil {
+		fmt.Println(err)
 		return c.JSON(http.StatusOK, "not exist")
 	}
-	return c.JSON(http.StatusUnauthorized, id)
+	return c.JSON(http.StatusOK, id)
 }
 
 func SignIn(c echo.Context) error {
