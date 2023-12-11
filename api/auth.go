@@ -38,14 +38,16 @@ func GetUserInfo(c echo.Context) error {
 func NewUserInfo(c echo.Context) error {
 
 	ui := &Users{
-		Name: c.FormValue("name"),
-		PW:   c.FormValue("password"),
+		Name:  c.FormValue("name"),
+		PW:    c.FormValue("password"),
+		Email: c.FormValue("email"),
+		Tel:   c.FormValue("Tel"),
 	}
-	if ui.Name == "" || ui.PW == "" {
+	if ui.Name == "" || ui.PW == "" || ui.Email == "" || ui.Tel == "" {
 		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw")
 	}
 
-	_, err := env.MyDB.Exec("INSERT INTO USERS(NAME, PW) VALUES(?, ?)", ui.Name, ui.PW)
+	_, err := env.MyDB.Exec("INSERT INTO ghldnjs.USERS(NAME, PW, EMAIL, TEL) VALUES(?, ?, ?, ?);", ui.Name, ui.PW, ui.Email, ui.Tel)
 	if err != nil {
 		log.Println(err)
 	}
