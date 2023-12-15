@@ -162,15 +162,17 @@ func CrawlingLottoNumAll(c echo.Context) error {
 }
 
 func GetLottoNum(c echo.Context) error {
-
+	var nums string
+	var err error
 	round := c.Param("round")
-	if round == "" {
-		return c.JSON(http.StatusMethodNotAllowed, "need round")
+
+	if round == "" || round == "latest" {
+		nums, err = getLatestNums(env.MyDB)
+	} else {
+		nums, err = getNums(env.MyDB, round)
 	}
-	nums, err := getNums(env.MyDB, round)
 	if err != nil {
 		return c.JSON(http.StatusMethodNotAllowed, "check fail")
 	}
-
 	return c.JSON(http.StatusOK, nums)
 }

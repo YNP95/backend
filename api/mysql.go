@@ -67,3 +67,10 @@ func getNums(db *sql.DB, round string) (string, error) {
 	err := db.QueryRow("SELECT nums FROM lotto WHERE round = ?;", round).Scan(&nums)
 	return nums, err
 }
+
+func getLatestNums(db *sql.DB) (string, error) {
+	var nums string
+
+	err := db.QueryRow("SELECT nums FROM lotto ORDER BY CAST(round AS DECIMAL) DESC LIMIT 1;").Scan(&nums)
+	return nums, err
+}
