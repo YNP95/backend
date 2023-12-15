@@ -165,9 +165,12 @@ func GetLottoNum(c echo.Context) error {
 
 	round := c.Param("round")
 	if round == "" {
-		return c.String(http.StatusMethodNotAllowed, "need round")
+		return c.JSON(http.StatusMethodNotAllowed, "need round")
 	}
-	getNums(env.MyDB, round)
+	nums, err := getNums(env.MyDB, round)
+	if err != nil {
+		return c.JSON(http.StatusMethodNotAllowed, "check fail")
+	}
 
-	return c.JSON(http.StatusOK, "OK")
+	return c.JSON(http.StatusOK, nums)
 }
