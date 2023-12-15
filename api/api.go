@@ -1,7 +1,6 @@
 package api
 
 import (
-	"encoding/json"
 	"log"
 	"math/rand"
 	"net/http"
@@ -32,7 +31,11 @@ type Number struct {
 // @Success 200
 // @Router / [get]
 func Index(c echo.Context) error {
-	return c.JSONPretty(http.StatusOK, "hello lotto", "  ")
+	r := &Res{
+		Status:   http.StatusOK,
+		Response: "hello ynp",
+	}
+	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
 // @Summary Random
@@ -72,7 +75,11 @@ func CreateTable(c echo.Context) error {
 	if err != nil {
 		return c.String(http.StatusMethodNotAllowed, "table create fail")
 	}
-	return c.String(http.StatusOK, "table created")
+	r := &Res{
+		Status:   http.StatusOK,
+		Response: "table created",
+	}
+	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
 func CrawlingLottoNum(c echo.Context) error {
@@ -116,11 +123,11 @@ func CrawlingLottoNum(c echo.Context) error {
 
 	InsertNums(env.MyDB, round, strings.Join(nums, " "))
 
-	numsJson, err := json.Marshal(nums)
-	if err != nil {
-		return c.String(http.StatusMethodNotAllowed, "json marshal fail")
+	r := &Res{
+		Status:   http.StatusOK,
+		Response: nums,
 	}
-	return c.JSONBlob(http.StatusOK, numsJson)
+	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
 func CrawlingLottoNumAll(c echo.Context) error {
@@ -168,7 +175,11 @@ func CrawlingLottoNumAll(c echo.Context) error {
 		}
 
 	}()
-	return c.JSON(http.StatusOK, "OK")
+	r := &Res{
+		Status:   http.StatusOK,
+		Response: "OK",
+	}
+	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
 func GetLottoNum(c echo.Context) error {
@@ -184,5 +195,9 @@ func GetLottoNum(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusMethodNotAllowed, "check fail")
 	}
-	return c.JSON(http.StatusOK, nums)
+	r := &Res{
+		Status:   http.StatusOK,
+		Response: nums,
+	}
+	return c.JSONPretty(http.StatusOK, r, " ")
 }

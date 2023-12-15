@@ -1,7 +1,6 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -28,11 +27,11 @@ func GetUserInfo(c echo.Context) error {
 		}
 	}
 
-	buff, err := json.Marshal(ui)
-	if err != nil {
-		return err
+	r := &Res{
+		Status:   http.StatusOK,
+		Response: ui,
 	}
-	return c.String(http.StatusOK, string(buff))
+	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
 func NewUserInfo(c echo.Context) error {
@@ -51,7 +50,12 @@ func NewUserInfo(c echo.Context) error {
 	if err != nil {
 		log.Println(err)
 	}
-	return c.String(http.StatusOK, "SignUp Success.")
+
+	r := &Res{
+		Status:   http.StatusOK,
+		Response: "SignUp Seccess.",
+	}
+	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
 func IdDuplicateCheck(c echo.Context) error {
@@ -61,9 +65,17 @@ func IdDuplicateCheck(c echo.Context) error {
 		if err.Error() != "sql: no rows in result set" {
 			return c.JSON(http.StatusMethodNotAllowed, "error!")
 		}
-		return c.JSON(http.StatusOK, "not exist")
+		r := &Res{
+			Status:   http.StatusOK,
+			Response: "not exist",
+		}
+		return c.JSONPretty(http.StatusOK, r, " ")
 	}
-	return c.JSON(http.StatusOK, id)
+	r := &Res{
+		Status:   http.StatusOK,
+		Response: id,
+	}
+	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
 func SignIn(c echo.Context) error {
