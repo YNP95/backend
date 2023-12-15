@@ -8,10 +8,14 @@ help:
 
 all:
 	make clean
+	make docs
 	make build 
 
 clean:
 	go clean
+
+docs:	dummy
+	swag init -g cmd/server/server.go
 
 build:	dummy
 	go build api/*.go

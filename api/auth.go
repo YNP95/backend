@@ -103,5 +103,5 @@ func SignIn(c echo.Context) error {
 		Status:   http.StatusOK,
 		Response: params["token"],
 	}
-	return c.JSON(http.StatusOK, r)
+	return c.JSONPretty(http.StatusOK, r, " ")
 }

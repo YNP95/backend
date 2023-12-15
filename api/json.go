@@ -1,6 +1,6 @@
 package api
 
 type Res struct {
-	Status   int    `json:"status"`
-	Response string `json:"res"`
+	Status   int         `json:"status"`
+	Response interface{} `json:"res"`
 }

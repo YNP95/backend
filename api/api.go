@@ -24,12 +24,23 @@ type Number struct {
 	NumB string `json:"numb"`
 }
 
-// Index main page
+// @Summary Index
+// @Description Index API
+// @Accept json
+// @Produce json
+// @Param name path string true "name of the user"
+// @Success 200
+// @Router / [get]
 func Index(c echo.Context) error {
-	return c.String(http.StatusOK, "hello lotto")
+	return c.JSONPretty(http.StatusOK, "hello lotto", "  ")
 }
 
-// Random return random num 1~45
+// @Summary Random
+// @Description get 6 of random numbers
+// @Accept json
+// @Produce json
+// @Success 200 {object} Res
+// @Router /random [get]
 func Random(c echo.Context) error {
 	seed := rand.NewSource(time.Now().UnixNano())
 	random := rand.New(seed)
@@ -49,12 +60,11 @@ func Random(c echo.Context) error {
 		}
 	}
 
-	buf, err := json.Marshal(ret)
-	if err != nil {
-		log.Println(err)
+	r := &Res{
+		Status:   http.StatusOK,
+		Response: ret,
 	}
-
-	return c.JSONBlob(http.StatusOK, buf)
+	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
 func CreateTable(c echo.Context) error {

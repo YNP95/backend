@@ -1,0 +1,69 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "YNP SERVER API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/v1",
+    "paths": {
+        "/": {
+            "get": {
+                "description": "Index API",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Index",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name of the user",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/random": {
+            "get": {
+                "description": "get 6 of random numbers",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Random",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.Res"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.Res": {
+            "type": "object",
+            "properties": {
+                "res": {},
+                "status": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

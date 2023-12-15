@@ -1,0 +1,45 @@
+basePath: /v1
+definitions:
+  api.Res:
+    properties:
+      res: {}
+      status:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  title: YNP SERVER API
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Index API
+      parameters:
+      - description: name of the user
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Index
+  /random:
+    get:
+      consumes:
+      - application/json
+      description: get 6 of random numbers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Res'
+      summary: Random
+swagger: "2.0"

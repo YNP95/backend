@@ -9,6 +9,9 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	echoSwagger "github.com/swaggo/echo-swagger"
+
+	_ "ynp/docs"
 )
 
 type Stats struct {
@@ -36,6 +39,10 @@ func init() {
 	env.MyDB = api.NewDb()
 }
 
+// @title YNP SERVER API
+// @version 1.0
+// @host localhost:8080
+// @BasePath /v1
 func main() {
 	defer api.CloseDb(env.MyDB)
 
@@ -50,6 +57,8 @@ func main() {
 	e.Use(middleware.CORS())
 
 	e.GET("/v1/", api.Index)
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
+
 	e.GET("/v1/random", api.Random)
 
 	e.GET("/v1/users/get/:name", api.GetUserInfo)
