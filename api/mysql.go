@@ -25,7 +25,6 @@ type Users struct {
 func NewTable() error {
 	_, err := env.MyDB.Exec("CREATE TABLE IF NOT EXISTS USERS (USER_ID int NOT NULL, PW binary(100) NOT NULL, NAME varchar(45) NOT NULL, EMAIL varchar(100) NOT NULL, TEL varchar(45) DEFAULT NULL, LAST_ACCESS_DT datetime DEFAULT NULL, UPDATE_DT datetime DEFAULT NULL, CREATE_DT datetime DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (USER_ID) ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;")
 	if err != nil {
-		log.Println("create table fail.")
 		return errors.New("create table fail")
 	}
 	return nil
@@ -60,4 +59,11 @@ func queryId(db *sql.DB, name string) (int, error) {
 func InsertNums(db *sql.DB, round, nums string) error {
 	_, err := db.Exec("INSERT INTO lotto(round, nums) VALUES(?, ?);", round, nums)
 	return err
+}
+
+func getNums(db *sql.DB, round string) (string, error) {
+	var nums string
+
+	err := db.QueryRow("SELECT nums FROM lotto WHERE round = ?;", round).Scan(&nums)
+	return nums, err
 }

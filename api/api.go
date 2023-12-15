@@ -160,3 +160,14 @@ func CrawlingLottoNumAll(c echo.Context) error {
 	}()
 	return c.JSON(http.StatusOK, "OK")
 }
+
+func GetLottoNum(c echo.Context) error {
+
+	round := c.Param("round")
+	if round == "" {
+		return c.String(http.StatusMethodNotAllowed, "need round")
+	}
+	getNums(env.MyDB, round)
+
+	return c.JSON(http.StatusOK, "OK")
+}

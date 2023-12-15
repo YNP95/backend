@@ -62,6 +62,8 @@ func main() {
 	e.GET("/v1/crawl/lotto/:round", api.CrawlingLottoNum)
 	e.GET("/v1/crawl/lotto/all", api.CrawlingLottoNumAll)
 
+	e.GET("/v1/lotto/get/:round", api.GetLottoNum)
+
 	// e.Use(middleware.JWTWithConfig(middleware.JWTConfig{
 	// 	SigningKey:  []byte("secret"),
 	// 	TokenLookup: "query:token",
