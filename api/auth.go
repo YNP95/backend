@@ -13,7 +13,7 @@ import (
 func GetUserInfo(c echo.Context) error {
 	name := c.Param("name")
 
-	rows, err := env.MyDB.Query("SELECT USER_ID, PW, NAME, EMAIL, TEL, LAST_ACCESS_DT, UPDATE_DT, CREATE_DT FROM USERS where name = ?", name)
+	rows, err := env.MyDB.Query("SELECT USER_ID, PW, NAME, EMAIL, TEL, LAST_ACCESS_DT, UPDATE_DT, CREATE_DT FROM USERS where name = ?;", name)
 	if err != nil {
 		return err
 	}
