@@ -57,7 +57,7 @@ func main() {
 	e.Use(middleware.CORS())
 
 	e.GET("/v1/", api.Index)
-	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	e.GET("/v1/swagger/*", echoSwagger.WrapHandler)
 
 	e.GET("/v1/random", api.Random)
 
