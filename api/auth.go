@@ -46,9 +46,10 @@ func NewUserInfo(c echo.Context) error {
 		return c.JSON(http.StatusMethodNotAllowed, "invalid name pw email tel")
 	}
 
-	_, err := env.MyDB.Exec("INSERT INTO ghldnjs.USERS(NAME, PW, EMAIL, TEL) VALUES(?, ?, ?, ?);", ui.Name, ui.PW, ui.Email, ui.Tel)
+	_, err := env.MyDB.Exec("INSERT INTO ghldnjs.USERS(NAME, PW, EMAIL, TEL, LAST_ACCESS_DT) VALUES(?, ?, ?, ?, ?);", ui.Name, ui.PW, ui.Email, ui.Tel, time.Now())
 	if err != nil {
 		log.Println(err)
+		return c.JSON(http.StatusMethodNotAllowed, "insert fail")
 	}
 
 	r := &Res{
@@ -91,7 +92,11 @@ func SignIn(c echo.Context) error {
 
 	id, err := queryPw(env.MyDB, name, password)
 	if err != nil {
-		return c.JSON(http.StatusMethodNotAllowed, err)
+		return c.JSON(http.StatusMethodNotAllowed, "db error")
+	}
+	_, err = env.MyDB.Exec("update ghldnjs.USERS SET LAST_ACCESS_DT = ?;", time.Now())
+	if err != nil {
+		return c.JSON(http.StatusMethodNotAllowed, "db error")
 	}
 
 	accessToken, err := generateToken(c, id, name)
