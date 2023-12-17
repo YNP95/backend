@@ -10,6 +10,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// @Summary Get User Info
+// @Description Get users information
+// @Accept json
+// @Produce json
+// @Param name path string true "Desired Name"
+// @Success 200 {object} Res
+// @Router /users/get/{name} [get]
 func GetUserInfo(c echo.Context) error {
 	name := c.Param("name")
 
@@ -34,6 +41,16 @@ func GetUserInfo(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
+// @Summary New User Info
+// @Description Create users information - SignUp
+// @Accept json
+// @Produce json
+// @Param name formData string true "User's name"
+// @Param password formData string true "User's password"
+// @Param email formData string true "User's email"
+// @Param tel formData string true "User's tel number"
+// @Success 200 {object} Res
+// @Router /users/signup [post]
 func NewUserInfo(c echo.Context) error {
 
 	ui := &Users{
@@ -59,6 +76,13 @@ func NewUserInfo(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
+// @Summary User's name duplicate check
+// @Description Check a name for SignUp
+// @Accept json
+// @Produce json
+// @Param name path string true "User's name"
+// @Success 200 {object} Res
+// @Router /users/exist/{name} [get]
 func IdDuplicateCheck(c echo.Context) error {
 	name := c.Param("name")
 	id, err := queryId(env.MyDB, name)
@@ -79,6 +103,14 @@ func IdDuplicateCheck(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
+// @Summary Sign in
+// @Description Sign in function
+// @Accept json
+// @Produce json
+// @Param name formData string true "User's name"
+// @Param password formData string true "User's password"
+// @Success 200 {object} Res
+// @Router /users/signin [post]
 func SignIn(c echo.Context) error {
 	params := make(map[string]string)
 	var id int

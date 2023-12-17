@@ -27,7 +27,6 @@ type Number struct {
 // @Description Index API
 // @Accept json
 // @Produce json
-// @Param name path string true "name of the user"
 // @Success 200
 // @Router / [get]
 func Index(c echo.Context) error {
@@ -70,6 +69,12 @@ func Random(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
+// @Summary Create Table
+// @Description Create users table
+// @Accept json
+// @Produce json
+// @Success 200
+// @Router /table/create [post]
 func CreateTable(c echo.Context) error {
 	err := NewTable()
 	if err != nil {
@@ -82,6 +87,13 @@ func CreateTable(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
+// @Summary Crawling Lotto Num
+// @Description Crawling lotto nums - Desired Round
+// @Accept json
+// @Produce json
+// @Param round path string true "Desired Round / latest is latest round"
+// @Success 200 {object} Res
+// @Router /crawl/lotto/{round} [get]
 func CrawlingLottoNum(c echo.Context) error {
 	lottoUrl := "https://dhlottery.co.kr/gameResult.do?method=byWin"
 
@@ -130,6 +142,12 @@ func CrawlingLottoNum(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
+// @Summary Crawling Lotto Num All
+// @Description Crawling lotto nums - All Round
+// @Accept json
+// @Produce json
+// @Success 200 {object} Res
+// @Router /crawl/lotto/all [get]
 func CrawlingLottoNumAll(c echo.Context) error {
 	go func() {
 		lu := "https://dhlottery.co.kr/gameResult.do?method=byWin"
@@ -182,6 +200,13 @@ func CrawlingLottoNumAll(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, r, " ")
 }
 
+// @Summary Get Lotto Num
+// @Description Get lotto nums - Desired Round
+// @Accept json
+// @Produce json
+// @Param round path string true "Desired Round / latest is latest round"
+// @Success 200 {object} Res
+// @Router /lotto/get/{round} [get]
 func GetLottoNum(c echo.Context) error {
 	var nums string
 	var err error

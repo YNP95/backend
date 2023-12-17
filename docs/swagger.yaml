@@ -17,10 +17,21 @@ paths:
       consumes:
       - application/json
       description: Index API
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Index
+  /crawl/lotto/{round}:
+    get:
+      consumes:
+      - application/json
+      description: Crawling lotto nums - Desired Round
       parameters:
-      - description: name of the user
+      - description: Desired Round / latest is latest round
         in: path
-        name: name
+        name: round
         required: true
         type: string
       produces:
@@ -28,7 +39,41 @@ paths:
       responses:
         "200":
           description: OK
-      summary: Index
+          schema:
+            $ref: '#/definitions/api.Res'
+      summary: Crawling Lotto Num
+  /crawl/lotto/all:
+    get:
+      consumes:
+      - application/json
+      description: Crawling lotto nums - All Round
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Res'
+      summary: Crawling Lotto Num All
+  /lotto/get/{round}:
+    get:
+      consumes:
+      - application/json
+      description: Get lotto nums - Desired Round
+      parameters:
+      - description: Desired Round / latest is latest round
+        in: path
+        name: round
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Res'
+      summary: Get Lotto Num
   /random:
     get:
       consumes:
@@ -42,4 +87,111 @@ paths:
           schema:
             $ref: '#/definitions/api.Res'
       summary: Random
+  /table/create:
+    post:
+      consumes:
+      - application/json
+      description: Create users table
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Create Table
+  /users/exist/{name}:
+    get:
+      consumes:
+      - application/json
+      description: Check a name for SignUp
+      parameters:
+      - description: User's name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Res'
+      summary: User's name duplicate check
+  /users/get/{name}:
+    get:
+      consumes:
+      - application/json
+      description: Get users information
+      parameters:
+      - description: Desired Name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Res'
+      summary: Get User Info
+  /users/signin:
+    post:
+      consumes:
+      - application/json
+      description: Sign in function
+      parameters:
+      - description: User's name
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: User's password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Res'
+      summary: Sign in
+  /users/signup:
+    post:
+      consumes:
+      - application/json
+      description: Create users information - SignUp
+      parameters:
+      - description: User's name
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: User's password
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: User's email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: User's tel number
+        in: formData
+        name: tel
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Res'
+      summary: New User Info
 swagger: "2.0"
